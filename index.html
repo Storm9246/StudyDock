@@ -42,6 +42,46 @@
         <ul id="task-list" class="task-list"></ul>
       </article>
 
+      <article class="card deadlines-card">
+        <p class="card-label">COMING UP</p>
+        <h2>Deadline tracker</h2>
+      
+        <form id="deadline-form" class="deadline-form">
+          <div>
+            <label for="deadline-title">Title</label>
+            <input
+              id="deadline-title"
+              type="text"
+              placeholder="e.g. Networking assignment"
+              maxlength="100"
+              required
+            >
+          </div>
+      
+          <div>
+            <label for="deadline-type">Type</label>
+            <select id="deadline-type">
+              <option value="Assignment">Assignment</option>
+              <option value="Exam">Exam</option>
+            </select>
+          </div>
+      
+          <div>
+            <label for="deadline-date">Due date and time</label>
+            <input id="deadline-date" type="datetime-local" required>
+          </div>
+      
+          <button type="submit">Add deadline</button>
+        </form>
+      
+        <p class="small-note">
+          Dates and times use your device’s local time zone.
+          Deadlines are saved in this browser.
+        </p>
+      
+        <ul id="deadline-list" class="deadline-list"></ul>
+      </article>
+      
       <article class="card notes-card">
         <p class="card-label">QUICK NOTES</p>
         <h2>Jot it down</h2>
