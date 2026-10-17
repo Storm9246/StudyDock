@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyDock | Your Study Space</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#">StudyDock<span>.</span></a>
+    <p>Your study space</p>
+  </header>
+
+  <main class="dashboard">
+    <section class="welcome">
+      <p class="eyebrow">MAKE TODAY COUNT</p>
+      <h1>A little progress<br>goes a long way.</h1>
+      <p>Plan your work, focus for a while, and keep moving forward.</p>
+    </section>
+
+    <section class="tools" aria-label="Study tools">
+      <article class="card timer-card">
+        <p class="card-label">FOCUS TIMER</p>
+        <h2>Time to focus</h2>
+        <p id="timer-display" class="timer-display">25:00</p>
+        <div class="button-row">
+          <button id="start-timer" type="button">Start</button>
+          <button id="reset-timer" class="button-secondary" type="button">Reset</button>
+        </div>
+      </article>
+
+      <article class="card tasks-card">
+        <p class="card-label">YOUR PLAN</p>
+        <h2>Task checklist</h2>
+        <form id="task-form" class="input-row">
+          <label class="visually-hidden" for="task-input">New task</label>
+          <input id="task-input" type="text" placeholder="Add a task..." required>
+          <button type="submit">Add</button>
+        </form>
+        <ul id="task-list" class="task-list"></ul>
+      </article>
+
+      <article class="card notes-card">
+        <p class="card-label">QUICK NOTES</p>
+        <h2>Jot it down</h2>
+        <label class="visually-hidden" for="notes-input">Your notes</label>
+        <textarea id="notes-input" placeholder="Write a thought or reminder..."></textarea>
+        <p class="small-note">Your notes are saved in this browser.</p>
+      </article>
+    </section>
+
+    <footer>
+      <p>One task at a time. You’ve got this.</p>
+    </footer>
+  </main>
+</body>
+</html>
