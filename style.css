@@ -406,3 +406,172 @@ footer {
     transition: none;
   }
 }
+
+/* Deadline tracker */
+.deadlines-card {
+  grid-column: 1 / -1;
+  background: #dce9f8;
+}
+
+.deadlines-card .card-label {
+  color: #426c9b;
+}
+
+.deadline-form {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.3fr auto;
+  align-items: end;
+  gap: 12px;
+}
+
+.deadline-form > div {
+  min-width: 0;
+}
+
+.deadline-form label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.deadline-form input,
+.deadline-form select {
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 10px 12px;
+  border: 1px solid #20383220;
+  border-radius: 12px;
+  background: #ffffffc9;
+  color: var(--ink);
+  font: inherit;
+}
+
+.deadline-form input:focus,
+.deadline-form select:focus {
+  outline: 2px solid #426c9b;
+  outline-offset: 2px;
+}
+
+.deadline-form button {
+  min-height: 46px;
+}
+
+.deadline-list {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.deadline-list:empty::after {
+  content: "Nothing on the horizon yet. Add your first deadline above.";
+  padding: 20px;
+  color: #60758b;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.deadline-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid #ffffffa0;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+
+.deadline-details {
+  min-width: 0;
+}
+
+.deadline-item h3 {
+  margin: 7px 0;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.deadline-type,
+.deadline-badge {
+  display: inline-block;
+  margin: 0 6px 4px 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #e5edf7;
+  color: #426080;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.deadline-date,
+.deadline-countdown {
+  margin: 5px 0 0;
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.deadline-date {
+  color: #65746c;
+}
+
+.deadline-countdown {
+  color: #176b58;
+  font-weight: 700;
+}
+
+.deadline-item.nearest {
+  border: 2px solid #176b58;
+  background: #f3fff8;
+}
+
+.nearest .deadline-badge {
+  color: #176b58;
+  background: #d8efdf;
+}
+
+.deadline-item.overdue {
+  background: #fff3ef;
+}
+
+.overdue .deadline-badge {
+  color: #a43f32;
+  background: #f9dfd6;
+}
+
+.overdue .deadline-countdown {
+  color: #a43f32;
+}
+
+.deadline-delete {
+  flex-shrink: 0;
+  min-height: 34px;
+  padding: 7px 10px;
+  background: #e7edf5;
+  color: #526b86;
+  font-size: 0.75rem;
+}
+
+.deadline-delete:hover {
+  background: #f5d8d0;
+  color: #923f32;
+}
+
+@media (max-width: 900px) {
+  .deadline-form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .deadline-form {
+    grid-template-columns: 1fr;
+  }
+
+  .deadline-item {
+    align-items: flex-start;
+  }
+}
