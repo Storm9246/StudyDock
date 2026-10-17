@@ -123,3 +123,157 @@ notesInput.value = localStorage.getItem("studydock-notes") || "";
 notesInput.addEventListener("input", () => {
   localStorage.setItem("studydock-notes", notesInput.value);
 });
+
+
+// Deadline tracker
+const deadlineForm = document.querySelector("#deadline-form");
+const deadlineTitle = document.querySelector("#deadline-title");
+const deadlineType = document.querySelector("#deadline-type");
+const deadlineDate = document.querySelector("#deadline-date");
+const deadlineList = document.querySelector("#deadline-list");
+
+let deadlines = JSON.parse(
+  localStorage.getItem("studydock-deadlines") || "[]"
+);
+
+function saveDeadlines() {
+  localStorage.setItem(
+    "studydock-deadlines",
+    JSON.stringify(deadlines)
+  );
+}
+
+function displayDeadlines() {
+  const now = Date.now();
+
+  const sorted = [...deadlines].sort(
+    (a, b) => new Date(a.due).getTime() - new Date(b.due).getTime()
+  );
+
+  const nearest = sorted.find(
+    (deadline) => new Date(deadline.due).getTime() > now
+  );
+
+  deadlineList.replaceChildren();
+
+  sorted.forEach((deadline) => {
+    const dueTime = new Date(deadline.due).getTime();
+    const remaining = dueTime - now;
+    const overdue = remaining <= 0;
+    const isNearest = nearest && deadline.id === nearest.id;
+
+    const item = document.createElement("li");
+    item.className = "deadline-item";
+
+    if (overdue) item.classList.add("overdue");
+    if (isNearest) item.classList.add("nearest");
+
+    const details = document.createElement("div");
+    details.className = "deadline-details";
+
+    const type = document.createElement("span");
+    type.className = "deadline-type";
+    type.textContent = deadline.type;
+    details.append(type);
+
+    if (overdue || isNearest) {
+      const badge = document.createElement("span");
+      badge.className = "deadline-badge";
+      badge.textContent = overdue ? "Overdue" : "Up next";
+      details.append(badge);
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = deadline.title;
+
+    const date = document.createElement("p");
+    date.className = "deadline-date";
+    date.textContent = "Due: " + new Date(deadline.due).toLocaleString(
+      undefined,
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      }
+    );
+
+    const countdown = document.createElement("p");
+    countdown.className = "deadline-countdown";
+
+    if (overdue) {
+      countdown.textContent = "This deadline has passed.";
+    } else {
+      const totalMinutes = Math.ceil(remaining / 60000);
+      const days = Math.floor(totalMinutes / 1440);
+      const hours = Math.floor((totalMinutes % 1440) / 60);
+      const minutes = totalMinutes % 60;
+
+      countdown.textContent =
+        `${days}d ${hours}h ${minutes}m remaining`;
+    }
+
+    details.append(title, date, countdown);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "deadline-delete";
+    deleteButton.textContent = "Delete";
+    deleteButton.setAttribute(
+      "aria-label",
+      `Delete deadline: ${deadline.title}`
+    );
+
+    deleteButton.addEventListener("click", () => {
+      deadlines = deadlines.filter(
+        (entry) => entry.id !== deadline.id
+      );
+      saveDeadlines();
+      displayDeadlines();
+    });
+
+    item.append(details, deleteButton);
+    deadlineList.append(item);
+  });
+}
+
+deadlineTitle.addEventListener("input", () => {
+  deadlineTitle.setCustomValidity("");
+});
+
+deadlineForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const title = deadlineTitle.value.trim();
+  const due = new Date(deadlineDate.value);
+
+  if (!title) {
+    deadlineTitle.setCustomValidity("Enter a deadline title.");
+    deadlineTitle.reportValidity();
+    return;
+  }
+
+  if (Number.isNaN(due.getTime())) return;
+
+  deadlines.push({
+    id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    title,
+    type: deadlineType.value,
+    due: due.toISOString()
+  });
+
+  saveDeadlines();
+  displayDeadlines();
+  deadlineForm.reset();
+  deadlineTitle.focus();
+});
+
+displayDeadlines();
+
+// Refresh countdowns without replacing a focused Delete button.
+setInterval(() => {
+  if (!deadlineList.contains(document.activeElement)) {
+    displayDeadlines();
+  }
+}, 10000);
